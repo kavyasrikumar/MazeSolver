@@ -1,4 +1,8 @@
 /**
+ * Name: Kavya Srikumar
+ * Last Updated: 1/21/22
+ * Period: 3
+ * 
  * Solves mazes. Please refer to the specification for instructions on how to solve mazes.
  */
 public class MazeSolver

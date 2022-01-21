@@ -1,4 +1,8 @@
 /**
+ * Name: Kavya Srikumar
+ * Last Updated: 1/21/22
+ * Period: 3
+ * 
  * Creates new mazes. Please refer to the spec for instructions on how to generate mazes.
  */
 public class MazeGenerator

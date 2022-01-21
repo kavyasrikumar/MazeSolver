@@ -1,4 +1,8 @@
 /**
+ * Name: Kavya Srikumar
+ * Last Updated: 1/21/22
+ * Period: 3
+ * 
  * A last-in-first-out (LIFO) stack of generic items.
  *
  * @param <T> the type of item to store in the stack
