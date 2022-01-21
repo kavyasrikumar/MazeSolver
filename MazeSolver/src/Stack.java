@@ -5,12 +5,19 @@
  */
 public class Stack<T>
 {
+	private T[] array;
+    private int top;
+    private int arraySize;
+    
     /**
      * Initializes an empty stack.
      */
     public Stack()
     {
-        throw new UnsupportedOperationException("Implement me!");
+    	array = (T[])new Object[1];
+        top = -1;
+        arraySize = 1;
+    	//throw new UnsupportedOperationException("Implement me!");
     }
 
     /**
@@ -20,7 +27,31 @@ public class Stack<T>
      */
     public void push(T newItem)
     {
-        throw new UnsupportedOperationException("Implement me!");
+        if (newItem == null)
+        {
+            throw new IllegalArgumentException();
+        }
+        
+        if (top + 1 < arraySize ) 
+        {
+            array[++top] = (T) newItem;
+        } 
+        else 
+        {
+            arraySize *= 2;
+            T[] newArray = (T[]) new Object[arraySize];
+            
+            for ( int i = 0; i <= top; i++ )
+            {
+                newArray[i] = (T) array[i];
+                array[i] = null;
+            }
+            
+            newArray[++top] = (T) newItem;
+            
+            this.array = newArray;
+        }
+    	//throw new UnsupportedOperationException("Implement me!");
     }
 
     /**
@@ -30,7 +61,35 @@ public class Stack<T>
      */
     public T pop()
     {
-        throw new UnsupportedOperationException("Implement me!");
+        if (isEmpty())
+        {
+            throw new IllegalStateException(); 
+        } 
+        else 
+        {
+            // pop the element
+            T temp =  (T)array[top];
+            array[top--] = null;
+            
+            // check if you have to resize
+
+            if (size() > 0 && (arraySize / 4 >= size()))
+            {
+                T[] newArray = (T[]) new Object[arraySize / 2];
+                for ( int i = 0; i <= top; i++ )
+                {
+                    newArray[i] = (T) array[i];
+                    array[i] = null;
+                }
+                
+                arraySize /= 2;
+                this.array = newArray;
+            }
+            
+
+            return (T)temp;
+        }
+    	//throw new UnsupportedOperationException("Implement me!");
     }
 
     /**
@@ -40,7 +99,15 @@ public class Stack<T>
      */
     public T peek()
     {
-        throw new UnsupportedOperationException("Implement me!");
+        if (arraySize < 0 || array[0] == null)
+        {
+            throw new IllegalStateException(); 
+        } 
+        else 
+        {
+            return (T)array[top];
+        }
+    	//throw new UnsupportedOperationException("Implement me!");
     }
 
     /**
@@ -50,7 +117,12 @@ public class Stack<T>
      */
     public boolean isEmpty()
     {
-        throw new UnsupportedOperationException("Implement me!");
+        if (top < 0)
+        {
+            return true;
+        }
+        return false;
+    	//throw new UnsupportedOperationException("Implement me!");
     }
 
     /**
@@ -60,6 +132,7 @@ public class Stack<T>
      */
     public int size()
     {
-        throw new UnsupportedOperationException("Implement me!");
+        return top + 1;
+    	// throw new UnsupportedOperationException("Implement me!");
     }
 }
