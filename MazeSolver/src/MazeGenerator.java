@@ -41,6 +41,7 @@ public class MazeGenerator
     	
     	Stack<Cell> myStack = new Stack<Cell>();
     	myStack.push (new Cell(0,0));
+    	myMaze.setStart (0,0);
     	
     	while (myStack.isEmpty() == false) {
     		
@@ -59,6 +60,9 @@ public class MazeGenerator
     			
     			myStack.push(current);
     			myStack.push(neighbor);
+    		}
+    		else {
+    			myMaze.setEnd(current.getX(), current.getY());
     		}
     	}
         
