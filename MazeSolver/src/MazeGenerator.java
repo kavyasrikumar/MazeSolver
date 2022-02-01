@@ -92,7 +92,10 @@ public class MazeGenerator
     	neighbor = null;
     	
     	if (myArray.size() > 0) {
-        	int index = (int) (Math.random() * myArray.size()); 
+    		double rand = (Math.random() * (myArray.size() - 0.01));
+    		
+        	int index = (int)(rand);
+        	//index = (int) (Math.random() * (myArray.size() - 1)); 
         	
         	neighbor = myArray.get(index);
         	direction = myDirection.get(index);
