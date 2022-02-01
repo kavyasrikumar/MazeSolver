@@ -15,6 +15,9 @@
  * 		iii.Push the current cell onto the stack.
  * 		iv.Push the randomly chosen neighbor cell onto the stack.
  */
+
+import java.util.ArrayList;
+
 public class MazeGenerator
 {
 	
