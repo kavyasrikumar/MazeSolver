@@ -1,19 +1,18 @@
 /**
  * Name: Kavya Srikumar
- * Last Updated: 1/21/22
+ * Last Updated: 2/1/22
  * Period: 3
  * 
  * Creates new mazes. Please refer to the spec for instructions on how to generate mazes.
  * 
- * The algorithm to do this works as follows:
- * 1.Initialize a stack starting at (0, 0). 
- * 2.Loop until the stack is empty.
- * 	a.Pop the current cell off the stack and mark it as visited.
- * 	b.If the current cell has any unvisited neighbors.
- *	 	i.Choose a random unvisited neighbor cell. 
- *	 	ii.Remove the wall between the chosen neighbor cell and the current cell.
- * 		iii.Push the current cell onto the stack.
- * 		iv.Push the randomly chosen neighbor cell onto the stack.
+ * This algorithm takes a parameter for size, and creates a maze accordingly. 
+ * There is only one solution path between any given start and end point, which 
+ * are both generated randomly. There are no inaccessible areas. 
+ * 
+ * The algorithm functions by driving through the maze and removing walls until
+ * a cell with no unvisited neighbors is reached, and words backwards until all 
+ * cells are visited. 
+ * 
  */
 
 import java.util.ArrayList;
@@ -40,13 +39,13 @@ public class MazeGenerator
     	
     	myMaze = new Maze(size);
     	
-    	
     	Stack<Cell> myStack = new Stack<Cell>();
     	myStack.push (new Cell(0,0));    	
     	
-    	while (myStack.isEmpty() == false) {
+    	while (myStack.isEmpty() == false) 
+    	{
     		
-    		// pop the current cell
+    		// pop the current cell until you reach the last cell which has no neighbors
     		Cell current = myStack.pop();
     		
     		// mark it visited
@@ -55,8 +54,9 @@ public class MazeGenerator
     		// get the next unvisited neighbor
     		getRandomUnvisitedNeighbor(current.getX(), current.getY());
     		
-    		// If a neighbor exists
-    		if (neighbor != null) {
+    		// if a neighbor exists
+    		if (neighbor != null) 
+    		{
     			myMaze.removeWall (current.getX(), current.getY(), direction);
     			
     			myStack.push(current);
@@ -70,37 +70,46 @@ public class MazeGenerator
     	return myMaze;
     }
     
-    public void getRandomUnvisitedNeighbor (int x, int y)
+    public void getRandomUnvisitedNeighbor(int x, int y)
     {
     	ArrayList<Cell> myArray = new ArrayList<Cell>();
     	ArrayList<Direction> myDirection = new ArrayList<Direction>();
     	
-    	if ((x - 1 >= 0) && !myMaze.isVisited (x-1, y)) {
-    		myArray.add (new Cell(x-1, y));
+    	if ( (x - 1 >= 0) && !myMaze.isVisited(x - 1, y) ) 
+    	{
+    		myArray.add (new Cell(x -1, y));
     		myDirection.add (Direction.LEFT);
     	}
     	
-    	if ((y - 1 >= 0)  && !myMaze.isVisited (x, y - 1)) {
-    		myArray.add (new Cell(x, y -1));
+    	if ( (y - 1 >= 0)  && !myMaze.isVisited(x, y - 1)) 
+    	{
+    		myArray.add (new Cell(x, y - 1));
     		myDirection.add (Direction.DOWN);
     	}
-    	if ((x+1 < myMaze.size()) && !myMaze.isVisited (x+1, y)) {
-    		myArray.add (new Cell(x+1, y));
+    	
+    	if ( (x + 1 < myMaze.size()) && !myMaze.isVisited(x + 1, y) ) 
+    	{
+    		myArray.add (new Cell(x + 1, y));
     		myDirection.add (Direction.RIGHT);
     	}
     	
-    	if ((y +1 < myMaze.size()) && !myMaze.isVisited (x, y+1)) {
+    	if ( (y + 1 < myMaze.size()) && !myMaze.isVisited(x, y + 1) ) 
+    	{
     		myArray.add (new Cell(x, y + 1));
     		myDirection.add (Direction.UP);
     	}
     	
+    	// neighbor will be null unless the current cell has a neighbor
     	neighbor = null;
     	
-    	if (myArray.size() > 0) {
+    	if (myArray.size() > 0) 
+    	{
+    		// use a random number within the range 0 <= x < arraySize 
+    		// to choose a neighbor randomly
+    		//
     		double rand = (Math.random() * (myArray.size() - 0.01));
     		
         	int index = (int)(rand);
-        	//index = (int) (Math.random() * (myArray.size() - 1)); 
         	
         	neighbor = myArray.get(index);
         	direction = myDirection.get(index);
