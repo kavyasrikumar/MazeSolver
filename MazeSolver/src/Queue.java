@@ -20,7 +20,6 @@ public class Queue<T>
         array = (T[])new Object[1];
         maximumSize = 1;
         size = 0;
-    	//throw new UnsupportedOperationException("Implement me!");
     }
 
     /**
@@ -48,7 +47,6 @@ public class Queue<T>
         } 
         array[size] = newItem;
         size++;
-    	//throw new UnsupportedOperationException("Implement me!");
     }
 
     /**
@@ -83,7 +81,6 @@ public class Queue<T>
             array[i-1] = array[i];
         }
         return temp;
-    	//throw new UnsupportedOperationException("Implement me!");
     }
 
     /**
@@ -101,7 +98,6 @@ public class Queue<T>
         {
             return array[0];
         }
-    	//throw new UnsupportedOperationException("Implement me!");
     }
 
     /**
@@ -116,7 +112,6 @@ public class Queue<T>
             return true;
         }
         return false; 
-    	//throw new UnsupportedOperationException("Implement me!");
     }
 
     /**
@@ -127,6 +122,5 @@ public class Queue<T>
     public int size()
     {
         return size;
-    	//throw new UnsupportedOperationException("Implement me!");
     }
 }

@@ -21,7 +21,6 @@ public class Stack<T>
     	array = (T[])new Object[1];
         top = -1;
         arraySize = 1;
-    	//throw new UnsupportedOperationException("Implement me!");
     }
 
     /**
@@ -55,7 +54,6 @@ public class Stack<T>
             
             this.array = newArray;
         }
-    	//throw new UnsupportedOperationException("Implement me!");
     }
 
     /**
@@ -93,7 +91,6 @@ public class Stack<T>
 
             return (T)temp;
         }
-    	//throw new UnsupportedOperationException("Implement me!");
     }
 
     /**
@@ -111,7 +108,6 @@ public class Stack<T>
         {
             return (T)array[top];
         }
-    	//throw new UnsupportedOperationException("Implement me!");
     }
 
     /**
@@ -126,7 +122,6 @@ public class Stack<T>
             return true;
         }
         return false;
-    	//throw new UnsupportedOperationException("Implement me!");
     }
 
     /**
@@ -137,6 +132,5 @@ public class Stack<T>
     public int size()
     {
         return top + 1;
-    	// throw new UnsupportedOperationException("Implement me!");
     }
 }
