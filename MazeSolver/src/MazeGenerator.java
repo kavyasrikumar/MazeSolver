@@ -7,6 +7,8 @@
  */
 public class MazeGenerator
 {
+	
+	private int maxSize;
     /**
      * Randomly generates a perfect maze of {@param size}.
      *
@@ -15,9 +17,39 @@ public class MazeGenerator
      */
     public Maze generate(int size)
     {
+    	maxSize = size; 
+    	
+    	Stack<Cell> current = new Stack<Cell>;
         throw new UnsupportedOperationException("Implement me!");
     }
 
+    public int markVisited(int x, int y)
+    {
+    	// set visitedArray [x][y] = 1
+    	return x;
+    }
+    
+    public boolean isVisited (int x, int y)
+    {
+    	if(markVisited(x, y) == 1)
+    	{
+    		return true;
+    	}
+    	
+    	return false;
+    }
+    
+    public Cell[] getNeighbor (int x, int y)
+    {
+    	Cell[] neighbors = new Cell[4];
+    	int index = 0;
+    	
+    	if ((markVisited(x+1, y) != 1) && x+1 < maxSize && y < maxSize )
+    	{
+    		neighbors[index++] = (x, y);
+    	}
+    }
+    
     /**
      * Creates and draws a sample maze. Try generating mazes with different sizes!
      *
