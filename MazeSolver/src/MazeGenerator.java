@@ -17,6 +17,7 @@
  */
 
 import java.util.ArrayList;
+import java.lang.Math;
 
 public class MazeGenerator
 {
@@ -93,8 +94,8 @@ public class MazeGenerator
     	if (myArray.size() > 0) {
         	int index = (int) (Math.Random() * myArray.size()); 
         	
-        	neighbor = myArray[index];
-        	direction = myDirection[index];
+        	neighbor = myArray.get(index);
+        	direction = myDirection.get(index);
     	}
     }
     
