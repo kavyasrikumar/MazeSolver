@@ -35,7 +35,7 @@ public class MazeGenerator
     { 	
     	myMaze = new Maze(size);
     	
-    	Stack<Cell> myStack = new Stack<Cell>;
+    	Stack<Cell> myStack = new Stack<Cell>();
     	myStack.push (new Cell(0,0));
     	
     	while (myStack.isEmpty() == false) {
@@ -63,8 +63,8 @@ public class MazeGenerator
     
     public void getRandomUnvisitedNeighbor (int x, int y)
     {
-    	ArrayList<Cell> myArray = new ArrayList<Cell>;
-    	ArrayList<Direction> myDirection = new ArrayList<Direction>;
+    	ArrayList<Cell> myArray = new ArrayList<Cell>();
+    	ArrayList<Direction> myDirection = new ArrayList<Direction>();
     	
     	if ((x - 1 >= 0) && !myMaze.isVisited (x-1, y)) {
     		myArray.add (new Cell(x-1, y));
@@ -75,12 +75,12 @@ public class MazeGenerator
     		myArray.add (new Cell(x, y -1));
     		myDirection.add (Direction.DOWN);
     	}
-    	if ((x+1 < myMaze.size()) &&  && !myMaze.isVisited (x+1, y)) {
+    	if ((x+1 < myMaze.size()) && !myMaze.isVisited (x+1, y)) {
     		myArray.add (new Cell(x+1, y));
     		myDirection.add (Direction.RIGHT);
     	}
     	
-    	if ((y +1 < myMaze.size()) &&  && !myMaze.isVisited (x, y+1)) {
+    	if ((y +1 < myMaze.size()) && !myMaze.isVisited (x, y+1)) {
     		myArray.add (new Cell(x, y + 1));
     		myDirection.add (Direction.UP);
     	}
