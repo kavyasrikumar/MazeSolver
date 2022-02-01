@@ -22,12 +22,12 @@ import java.lang.Math;
 public class MazeGenerator
 {
 	
-	Maze myMaze;
+	private Maze myMaze;
 	
 	// Populates with an unvisited neighbor and its direction
 	//
-	Cell neighbor;
-	Direction direction; // valid only when neighbor is not null
+	private Cell neighbor;
+	private Direction direction; // valid only when neighbor is not null
 	
     /**
      * Randomly generates a perfect maze of {@param size}.
@@ -110,7 +110,7 @@ public class MazeGenerator
     public static void main(String[] args)
     {
         StdRandom.setSeed(34);
-        int size = 10; // Setting above 200 is not recommended!
+        int size = 128; // Setting above 200 is not recommended!
         MazeGenerator generator = new MazeGenerator();
         Maze maze = generator.generate(size);
         maze.draw();
