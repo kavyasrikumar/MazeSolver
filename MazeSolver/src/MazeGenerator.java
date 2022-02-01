@@ -38,6 +38,8 @@ public class MazeGenerator
     public Maze generate(int size)
     { 	
     	myMaze = new Maze(size);
+    	int visitedCellCount = 0;
+    	
     	
     	Stack<Cell> myStack = new Stack<Cell>();
     	myStack.push (new Cell(0,0));
@@ -50,6 +52,11 @@ public class MazeGenerator
     		
     		// mark it visited
     		myMaze.visit(current.getX(), current.getY());
+    		visitedCellCount++;
+    		
+    		if (visitedCellCount == size * size) {
+       			myMaze.setEnd(current.getX(), current.getY());
+    		}
     		
     		// get the next unvisited neighbor
     		getRandomUnvisitedNeighbor(current.getX(), current.getY());
@@ -60,9 +67,6 @@ public class MazeGenerator
     			
     			myStack.push(current);
     			myStack.push(neighbor);
-    		}
-    		else {
-    			myMaze.setEnd(current.getX(), current.getY());
     		}
     	}
         
