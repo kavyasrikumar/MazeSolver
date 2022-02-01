@@ -92,7 +92,7 @@ public class MazeGenerator
     	neighbor = null;
     	
     	if (myArray.size() > 0) {
-        	int index = (int) (Math.Random() * myArray.size()); 
+        	int index = (int) (Math.random() * myArray.size()); 
         	
         	neighbor = myArray.get(index);
         	direction = myDirection.get(index);
