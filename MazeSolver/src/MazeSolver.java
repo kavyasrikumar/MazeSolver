@@ -15,8 +15,6 @@
  * Solves mazes. Please refer to the specification for instructions on how to solve mazes.
  */
 
-import java.util.ArrayList;
-
 public class MazeSolver
 {
     /**
@@ -29,85 +27,152 @@ public class MazeSolver
      */
 	
 	private Maze myMaze;
+
+	// creates a stackElement which is a set of two cells
+	//
+	class stackElement 
+	{
+	  	Cell current;
+        Cell previous;  
+        
+        stackElement (Cell c, Cell p) {
+        	current = c;
+        	previous = p;
+        }
+	}
+      
+	Stack<stackElement>  myPathStack;
 	
+	
+	public void AddNeighbor (Cell current, Cell previous) 
+	{	
+		stackElement l = new stackElement (current, previous);
+    	myPathStack.push(l);		
+	}
+	
+
     public Path solve(Maze maze)
     {
     	myMaze = maze;
-    	Path myPath = new Path();
+    	
+    	myPathStack = new Stack<stackElement>();
+    	
+    	AddNeighbor (maze.getStart(), null);
     	
     	Queue<Cell> myQueue = new Queue<Cell>();
     	myQueue.enqueue(maze.getStart());
     	
     	while (myQueue.isEmpty() == false) 
     	{
-    		
-    		// pop the current cell until you reach the last cell which has no neighbors
+    		// pop the current cell and mark it as visited
     		Cell current = myQueue.dequeue();
-    		
-    		// mark it visited
     		maze.visit(current.getX(), current.getY());
     		
     		if(current.equals(maze.getEnd()))
     		{
-    			//Construct the path from the start to the end and return it.
-    			myPath.addFirst(current);
-    			
-    			while(myQueue.isEmpty() == false) 
-    			{
-    				myPath.addFirst(myQueue.dequeue());
-    			}
+    			return getPath();
     		}
     		
-    		if (getReachableUnvisitedNeighbors(current) != null)
-    		{
-        		// if current is not the end of the path, get neighbors
-        		ArrayList<Cell> neighbors = getReachableUnvisitedNeighbors(current);
-        		
-        		for( int i = 0; i < neighbors.size(); i++) 
-        		{
-        			myQueue.enqueue(neighbors.get(i));
-        		}
+    		if(allVisited(maze, maze.size())) {
+    			return Path.NO_PATH;
     		}
 
+    		// if current is not the end of the path, get and queue neighbors
+    		getandQueueAllReachableUnvisitedNeighbors(current, myQueue);        		
     	}
     	
     	return Path.NO_PATH;
     }
 
-    public ArrayList<Cell> getReachableUnvisitedNeighbors(Cell cell)
+    public Path getPath ()
     {
+    	Path myPath = new Path();
+
+    	// Construct the path from the start to the end and return it.   
+		//
+		myPath.addFirst(myMaze.getEnd());
+
+		int cx = myMaze.getEnd().getX();
+		int cy = myMaze.getEnd().getY();
+		
+		// Now walk through the stack and populate the path
+		//
+		while (myPathStack.isEmpty() == false) {
+			
+			stackElement l = myPathStack.pop();
+			if (l.current.getX() == cx && l.current.getY() == cy) {	
+				
+				// The start has a previous of null. ignore it
+				//
+				if (l.previous != null) {
+					myPath.addFirst (l.previous);
+					cx = l.previous.getX();
+					cy = l.previous.getY();
+				}
+			}
+		}
+		return myPath;
+    }
+    
+    
+    // checks to see if every Cell in the maze is visited
+    //
+    public boolean allVisited (Maze maze, int size) 
+    {    	
+    	for( int i = 0; i < size; i++ )
+    	{
+    		for( int j = 0; j < size; j++)
+    		{
+    			if(!maze.isVisited(i, j)) {
+    				return false;
+    			}
+    		}
+    	}
+    	return true;
+    }
+
+    // finds all unvisited neighbors of the cell that is passed in
+    // adds all the found neighbors to the queue
+    //
+    public void getandQueueAllReachableUnvisitedNeighbors(Cell cell, Queue<Cell> queue)
+    { 	
     	int x = cell.getX();
     	int y = cell.getY();
     	
-    	ArrayList<Cell> myArray = new ArrayList<Cell>();
-    	
-    	if ( !myMaze.isVisited(x - 1, y) && myMaze.isOpen(x - 1, y, Direction.LEFT) ) 
+    	if ( (x - 1 >= 0) && !myMaze.isVisited(x - 1, y) && myMaze.isOpen(x, y, Direction.LEFT) ) 
     	{
-    		myArray.add (new Cell(x -1, y));
+    		Cell c = new Cell(x - 1, y);
+    		
+    		AddNeighbor(c, cell);
+    		queue.enqueue(c);
     	}
     	
-    	if ( !myMaze.isVisited(x, y - 1) && myMaze.isOpen(x, y - 1, Direction.DOWN) ) 
+    	if ( (y - 1 >= 0)  && !myMaze.isVisited(x, y - 1) && myMaze.isOpen(x, y, Direction.DOWN) ) 
     	{
-    		myArray.add (new Cell(x, y - 1));
+    		Cell c = new Cell(x, y - 1);
+    		
+    		AddNeighbor(c, cell);
+    		queue.enqueue(c);
     	}
     	
-    	if ( !myMaze.isVisited(x + 1, y) && myMaze.isOpen(x + 1, y, Direction.RIGHT)  ) 
+    	if ( (x + 1 < myMaze.size()) && !myMaze.isVisited(x + 1, y) && myMaze.isOpen(x, y, Direction.RIGHT)  ) 
     	{
-    		myArray.add (new Cell(x + 1, y));
+    		Cell c = new Cell(x + 1, y);
+    		
+    		AddNeighbor(c, cell);
+    		queue.enqueue(c);		
     	}
     	
-    	if ( !myMaze.isVisited(x, y + 1) && myMaze.isOpen(x, y + 1, Direction.UP) ) 
+    	if ( (y + 1 < myMaze.size()) && !myMaze.isVisited(x, y + 1) && myMaze.isOpen(x, y, Direction.UP) ) 
     	{
-    		myArray.add (new Cell(x, y + 1));
-    	}
-    	
-    	if(myArray.size() == 0) 
-    	{
-    		return null;
-    	}
-    	return myArray;
+    		Cell c = new Cell(x, y + 1);   		
+    		AddNeighbor(c, cell);
+    		
+    		queue.enqueue(c);
+       	}
     }
     
+      
     /**
      * Creates, solves, and draws a sample maze. Try solving mazes with different sizes!
      *
@@ -133,3 +198,4 @@ public class MazeSolver
         maze.draw();
     }
 }
+
