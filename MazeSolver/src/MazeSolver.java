@@ -1,16 +1,14 @@
 /**
  * Name: Kavya Srikumar
- * Last Updated: 2/1/22
+ * Last Updated: 2/7/22
  * Period: 3
  * 
- * The algorithm to do this works as follows:
- * 1.Initialize a queue with the start cell.
- * 2.Loop until the queue is empty.
- * 	a.Dequeue the current cell and mark it as visited.
- * 	b.If the current cell is the end cell.
- * 		i.Done! Construct the path from the start to the end and return it.
- * 	c.Enqueue all cells for neighbors of the current cell that are reachable and unvisited.
- * 3.If all reachable cells have been visited and no solution has been found, then return no solution.
+ * Finds a path from a specified start cell to a specified end cell. 
+ * Starts by enqueueing a cell, marking as visited, and enqueuing all its unvisited neighbors. 
+ * Repeats the process until arriving at the end cell, and uses pairs of cells to backtrack 
+ * and draw the path. 
+ * 
+ * Returns no solution if all cells are visited and no solution can be found. 
  * 
  * Solves mazes. Please refer to the specification for instructions on how to solve mazes.
  */
@@ -26,6 +24,8 @@ public class MazeSolver
      * @return a solution for the maze or {@link Path#NO_PATH} if there is no solution
      */
 	
+	// creates a reference to the maze that will be solved
+	//
 	private Maze myMaze;
 
 	// creates a stackElement which is a set of two cells
@@ -40,9 +40,11 @@ public class MazeSolver
         	previous = p;
         }
 	}
-      
-	Stack<stackElement>  myPathStack;
 	
+	// create a stack of pairs of cells
+	// each pair is a cell that is visited and its previous
+    //
+	Stack<stackElement>  myPathStack;
 	
 	public void AddNeighbor (Cell current, Cell previous) 
 	{	
@@ -57,6 +59,9 @@ public class MazeSolver
     	
     	myPathStack = new Stack<stackElement>();
     	
+    	// add each visited cell and its neighbor
+    	// the neighbor cells previous would be the visited cell
+    	//
     	AddNeighbor (maze.getStart(), null);
     	
     	Queue<Cell> myQueue = new Queue<Cell>();
@@ -68,6 +73,8 @@ public class MazeSolver
     		Cell current = myQueue.dequeue();
     		maze.visit(current.getX(), current.getY());
     		
+    		// return the path if end has been found
+    		//
     		if(current.equals(maze.getEnd()))
     		{
     			return getPath();
@@ -84,6 +91,7 @@ public class MazeSolver
     	return Path.NO_PATH;
     }
 
+    // get the path
     public Path getPath ()
     {
     	Path myPath = new Path();
@@ -92,22 +100,24 @@ public class MazeSolver
 		//
 		myPath.addFirst(myMaze.getEnd());
 
-		int cx = myMaze.getEnd().getX();
-		int cy = myMaze.getEnd().getY();
+		int currentX = myMaze.getEnd().getX();
+		int currentY = myMaze.getEnd().getY();
 		
 		// Now walk through the stack and populate the path
+		// by comparing the previous to the current of the following
+		// and creating the correct sequence of cells
 		//
 		while (myPathStack.isEmpty() == false) {
 			
-			stackElement l = myPathStack.pop();
-			if (l.current.getX() == cx && l.current.getY() == cy) {	
+			stackElement tempCell = myPathStack.pop();
+			if (tempCell.current.getX() == currentX && tempCell.current.getY() == currentY) {	
 				
-				// The start has a previous of null. ignore it
+				// The start has a previous of null
 				//
-				if (l.previous != null) {
-					myPath.addFirst (l.previous);
-					cx = l.previous.getX();
-					cy = l.previous.getY();
+				if (tempCell.previous != null) {
+					myPath.addFirst (tempCell.previous);
+					currentX = tempCell.previous.getX();
+					currentY = tempCell.previous.getY();
 				}
 			}
 		}
@@ -132,7 +142,8 @@ public class MazeSolver
     }
 
     // finds all unvisited neighbors of the cell that is passed in
-    // adds all the found neighbors to the queue
+    // adds all the found neighbors to the queue if there is no wall
+    // between the cells
     //
     public void getandQueueAllReachableUnvisitedNeighbors(Cell cell, Queue<Cell> queue)
     { 	
